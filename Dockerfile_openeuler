@@ -1,0 +1,34 @@
+FROM openeuler/openeuler:23.09
+LABEL maintainer="Etherpad team, https://github.com/ether/etherpad-lite"
+RUN yum install -y nodejs ca-certificates git shadow wget nodejs && npm config set registry https://registry.npmmirror.com
+ARG INSTALL_ABIWORD=
+ARG INSTALL_SOFFICE=
+ARG EP_HOME=
+ARG EP_SHELL=
+ARG EP_UID=5001
+ARG EP_GID=0
+ARG EP_DIR=/opt/etherpad-lite
+ARG ETHERPAD_PLUGINS="ep_font_size ep_font_color ep_font_family ep_headings2 ep_themes ep_openid_connect ep_guest ep_user_displayname ep_stable_authorid"
+RUN groupadd --system ${EP_GID:+--gid "${EP_GID}" --non-unique} etherpad && \
+    useradd --system ${EP_UID:+--uid "${EP_UID}" --non-unique} --gid etherpad \
+        ${EP_HOME:+--home-dir "${EP_HOME}"} --create-home \
+        ${EP_SHELL:+--shell "${EP_SHELL}"} etherpad
+RUN mkdir -p "${EP_DIR}" && chown etherpad:etherpad "${EP_DIR}"
+RUN export DEBIAN_FRONTEND=noninteractive; \
+    mkdir -p /usr/share/man/man1 && \
+    rm -rf /var/lib/apt/lists/*
+
+USER etherpad
+ENV NODE_ENV=production
+
+WORKDIR "${EP_DIR}"
+
+COPY --chown=etherpad:etherpad ./ ./
+COPY --chown=etherpad:etherpad ./settings.json.docker "${EP_DIR}"/settings.json
+
+# RUN { [ -z "${ETHERPAD_PLUGINS}" ] || npm install --no-save ${ETHERPAD_PLUGINS}; } && src/bin/installDeps.sh && rm -rf ~/.npm
+RUN sh -x /opt/etherpad-lite/src/bin/installDeps.sh
+RUN npm install --no-save ${ETHERPAD_PLUGINS};
+
+
+RUN chmod -R g=u .
