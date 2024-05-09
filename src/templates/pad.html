@@ -56,23 +56,6 @@
   <script type="text/javascript" src="../static/js/l10n.js?v=<%=settings.randomVersionString%>"></script>
 </head>
 <body>
-  <div style="height: 76px; background: #002FA7; display: flex; align-items: center; justify-content: space-between" class="notice-div">
-      <div style="display: flex; align-items: center">
-          <img src='../static/img/information.svg' class='notice-information-svg' style="height: 24px; width: 24px;">
-          <font style="color:#FFFFFF;
-                font-family: PingFangSC-Regular;
-                font-size: 14px;
-                letter-spacing: 0;
-                line-height: 22px;
-                font-weight: 400;
-                display: inline-block;
-                vertical-align: middle;
-                margin-left: 10px"
-          >注意：这是共享记事本，请勿留存敏感信息！/ Note: This is a shared notepad, please do not save sensitive information!</font>
-      </div>
-      <img src='../static/img/close.svg' class='notice-close-svg' style="height: 24px; width: 24px; display: flex; align-items: center; margin-right: 8px">
-  </div>
-
   <% e.begin_block("body"); %>
 
   <!----------------------------->
@@ -459,7 +442,7 @@
   <% e.begin_block("scripts"); %>
 
   <script type="text/javascript" src="../static/js/require-kernel.js?v=<%=settings.randomVersionString%>"></script>
-  <script type="text/javascript" src="../socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="../socket.io/socket.io.js?v=<%=settings.randomVersionString%>"></script>
 
   <!-- Include base packages manually (this help with debugging) -->
   <script type="text/javascript" src="../javascripts/lib/ep_etherpad-lite/static/js/pad.js?callback=require.define&v=<%=settings.randomVersionString%>"></script>
@@ -515,11 +498,6 @@
         padeditbar = require('ep_etherpad-lite/static/js/pad_editbar').padeditbar;
         padimpexp = require('ep_etherpad-lite/static/js/pad_impexp').padimpexp;
         require('ep_etherpad-lite/static/js/skin_variants');
-
-        //  click to hide the notice form
-        $('.notice-close-svg').on("click", ()=> {
-            $('.notice-div').hide();
-        })
 
       }());
       // @license-end

@@ -95,7 +95,7 @@ const init = () => {
 
 // sends a message over the socket
 const sendSocketMsg = (type, data) => {
-  socket.emit("message", {
+  socket.json.send({
     component: 'pad', // FIXME: Remove this stupidity!
     type,
     data,

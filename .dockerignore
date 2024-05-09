@@ -24,4 +24,3 @@ Dockerfile
 
 settings.json
 src/node_modules
-admin/node_modules

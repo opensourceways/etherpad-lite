@@ -527,7 +527,7 @@
   /*
    * Restrict socket.io transport methods
    */
-  "socketTransportProtocols" : ["websocket", "polling"],
+  "socketTransportProtocols" : ["xhr-polling", "jsonp-polling", "htmlfile"],
 
   "socketIo": {
     /*
@@ -650,29 +650,5 @@
   /*
    * Enable/Disable case-insensitive pad names.
    */
-  "lowerCasePadIds": "${LOWER_CASE_PAD_IDS:false}",
-  "sso": {
-    "issuer": "${SSO_ISSUER:http://localhost:9001}",
-      "clients": [
-        {
-          "client_id": "${CLIENT_ID}",
-          "client_secret": "${CLIENT_SECRET}",
-          "grant_types": ["client_credentials"],
-          "redirect_uris": [],
-          "response_types": [],
-          "extraParams": [{"name":"admin", "value":"true"}]
-        }
-      ]
-    },
-
-  /* Set the time to live for the tokens
-     This is the time of seconds a user is logged into Etherpad
-  "ttl": {
-      "AccessToken": 3600,
-      "AuthorizationCode": 600,
-      "ClientCredentials": 3600,
-      "IdToken": 3600,
-      "RefreshToken": 86400
-  }
-  */
+  "lowerCasePadIds": "${LOWER_CASE_PAD_IDS:false}"
 }

@@ -10,4 +10,4 @@ Module file names start with a capital letter and uses camelCase
 
 # Where does it start?
 
-server.ts is started directly
+server.js is started directly

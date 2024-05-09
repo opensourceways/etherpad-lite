@@ -46,12 +46,6 @@
       }
     },
     {
-      "name": "oauth2",
-        "hooks": {
-            "expressCreateServer": "ep_etherpad-lite/node/security/OAuth2Provider"
-        }
-    },
-    {
       "name": "padurlsanitize",
       "hooks": {
         "expressCreateServer": "ep_etherpad-lite/node/hooks/express/padurlsanitize"
@@ -98,12 +92,14 @@
     {
       "name": "adminplugins",
       "hooks": {
+        "expressCreateServer": "ep_etherpad-lite/node/hooks/express/adminplugins",
         "socketio": "ep_etherpad-lite/node/hooks/express/adminplugins"
       }
     },
     {
       "name": "adminsettings",
       "hooks": {
+        "expressCreateServer": "ep_etherpad-lite/node/hooks/express/adminsettings",
         "socketio": "ep_etherpad-lite/node/hooks/express/adminsettings"
       }
     },
@@ -111,12 +107,6 @@
       "name": "openapi",
       "hooks": {
         "expressPreSession": "ep_etherpad-lite/node/hooks/express/openapi"
-      }
-    },
-    {
-      "name": "ep_message_all",
-      "client_hooks": {
-        "handleClientMessage_shoutMessage": "ep_etherpad-lite/static/js/messageHandler"
       }
     }
   ]
