@@ -334,6 +334,22 @@
    * Note: "/admin" always requires authentication.
    */
   "requireAuthentication": "${REQUIRE_AUTHENTICATION:false}",
+  "ep_openid_connect": {
+           "issuer_metadata": {
+                "authorization_endpoint": "${ISSUER_AUTHORIZATION_ENDPOINT}",
+                "token_endpoint": "${ISSUER_TOKEN_ENDPOINT}",
+                "userinfo_endpoint": "${ISSUER_USERINFO_ENDPOINT}",
+                "issuer": "${ISSUER_ENDPOINT}",
+                "jwks_uri": "${ISSUER_JWKS_URI}"
+           },
+          "client_id": "${ISSUER_CLIENT_ID}",
+          "client_secret": "${ISSUER_CLIENT_SECRET}",
+          "scope": ["openid", "profile", "id_token"],
+          "base_url": "${ISSUER_BASE_URL}",
+          "user_properties": {
+                "displayname": {"claim": "username"}
+          }
+  },
 
   /*
    * Require authorization by a module, or a user with is_admin set, see below.
@@ -409,8 +425,8 @@
      * will delete the cookie when the browser exits, but a session record is
      * kept in the database forever.
      */
-    // 864000000 = 10d * 24h/d * 60m/h * 60s/m * 1000ms/s
-    "sessionLifetime": "${COOKIE_SESSION_LIFETIME:864000000}",
+    // 86400000 = 1d * 24h/d * 60m/h * 60s/m * 1000ms/s
+    "sessionLifetime": "${COOKIE_SESSION_LIFETIME:86400000}",
 
     /*
      * How long (in milliseconds) before the expiration time of an active user's

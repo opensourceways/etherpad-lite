@@ -917,9 +917,6 @@ class BaseClient {
         expectedIss = this.issuer.issuer.replace('{tenantid}', payload.tid);
       }
 
-      console.log("----------------------------");
-      console.log(payload.iss);
-
       if (payload.iss !== expectedIss) {
         throw new RPError({
           printf: ['unexpected iss value, expected %s, got: %s', expectedIss, payload.iss],
@@ -1024,8 +1021,7 @@ class BaseClient {
     }
 
     let keys;
-    console.log("------------------------");
-    console.log(header.alg);
+
     if (isSelfIssued) {
       try {
         assert(isPlainObject(payload.sub_jwk));
@@ -1052,7 +1048,7 @@ class BaseClient {
       }
     } else if (header.alg.startsWith('HS')) {
       keys = [this.secretForAlg(header.alg)];
-    } 
+    }
 
     if (!keys) {
       return { protected: header, payload };

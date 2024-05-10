@@ -1,6 +1,11 @@
 FROM openeuler/openeuler:23.09
 LABEL maintainer="Etherpad team, https://github.com/ether/etherpad-lite"
-RUN yum install -y nodejs ca-certificates git shadow wget nodejs tzdata && npm config set registry https://registry.npmmirror.com
+RUN yum install -y ca-certificates git shadow wget xz tzdata
+RUN mkdir -p /opt/soft/ && mkdir -p /opt/soft/node && mkdir -p /opt/etherpad-lite
+RUN cd /opt/soft/ && wget https://nodejs.org/dist/v18.20.0/node-v18.20.0-linux-x64.tar.xz && tar -xf node-v18.20.0-linux-x64.tar.xz -C /opt/soft/node && rm -rf /opt/soft/node-v18.20.0-linux-x64.tar.xz
+RUN ln -s /opt/soft/node/node-v18.20.0-linux-x64/bin/npm /usr/bin/npm && ln -s /opt/soft/node/node-v18.20.0-linux-x64/bin/node /usr/bin/node
+RUN npm config set registry https://registry.npmmirror.com && npm install pnpm -g && npm install typescript -g
+
 ARG INSTALL_ABIWORD=
 ARG INSTALL_SOFFICE=
 ARG EP_HOME=
@@ -21,25 +26,22 @@ USER etherpad
 ENV NODE_ENV=production
 ENV ETHERPAD_PRODUCTION=true
 ENV TZ=Asia/Shanghai
-
 WORKDIR "${EP_DIR}"
 
 COPY --chown=etherpad:etherpad ./ ./
 COPY --chown=etherpad:etherpad ./settings.json.docker "${EP_DIR}"/settings.json
-RUN cp -y /opt/etherpad-lite/script/client.js /opt/soft/etherpad-lite/node_modules/openid-client/lib/client.js
-RUN cp -y /opt/etherpad-lite/script/client.js /opt/soft/etherpad-lite/plugin_packages/openid-client/lib/client.js
+RUN chmod +x /opt/etherpad-lite/src/bin/installDeps.sh && chmod +x /opt/etherpad-lite/src/bin/run.sh
 RUN { [ -z "${ETHERPAD_PLUGINS}" ] || \
       npm install --no-save --legacy-peer-deps ${ETHERPAD_PLUGINS}; } && \
     src/bin/installDeps.sh && \
-    rm -rf ~/.npm \
+    rm -rf ~/.npm
+
+RUN cp /opt/etherpad-lite/script/client.js /opt/etherpad-lite/node_modules/openid-client/lib/client.js
 
 RUN chmod -R g=u .
-
-USER root
-RUN cd src && npm link
 
 HEALTHCHECK --interval=20s --timeout=3s CMD ["etherpad-healthcheck"]
 
 EXPOSE 9001
 
-CMD ["etherpad"]
+CMD ["/opt/etherpad-lite/src/bin/run.sh"]
