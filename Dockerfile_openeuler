@@ -1,10 +1,10 @@
 FROM openeuler/openeuler:23.09
-LABEL maintainer="Etherpad team, https://github.com/ether/etherpad-lite"
+LABEL maintainer="openEuler team, https://github.com/opensourceways"
 RUN yum install -y ca-certificates git shadow wget xz tzdata
 RUN mkdir -p /opt/soft/ && mkdir -p /opt/soft/node && mkdir -p /opt/etherpad-lite
 RUN cd /opt/soft/ && wget https://nodejs.org/dist/v18.20.0/node-v18.20.0-linux-x64.tar.xz && tar -xf node-v18.20.0-linux-x64.tar.xz -C /opt/soft/node && rm -rf /opt/soft/node-v18.20.0-linux-x64.tar.xz
 RUN ln -s /opt/soft/node/node-v18.20.0-linux-x64/bin/npm /usr/bin/npm && ln -s /opt/soft/node/node-v18.20.0-linux-x64/bin/node /usr/bin/node
-RUN npm config set registry https://registry.npmmirror.com && npm install pnpm -g && npm install typescript -g
+RUN npm config set registry https://registry.npmmirror.com
 
 ARG INSTALL_ABIWORD=
 ARG INSTALL_SOFFICE=
@@ -40,7 +40,8 @@ RUN cp /opt/etherpad-lite/script/client.js /opt/etherpad-lite/node_modules/openi
 
 RUN chmod -R g=u .
 
-HEALTHCHECK --interval=20s --timeout=3s CMD ["etherpad-healthcheck"]
+HEALTHCHECK --interval=20s --timeout=3s \
+  CMD curl --silent http://localhost:9001/health | grep -E "pass|ok|up" > /dev/null || exit 1
 
 EXPOSE 9001
 
