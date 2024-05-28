@@ -187,7 +187,7 @@ class BaseClient {
 
     const properties = {
       grant_types: ['authorization_code'],
-      id_token_signed_response_alg: 'RS256',
+      id_token_signed_response_alg: 'HS256',
       authorization_signed_response_alg: 'RS256',
       response_types: ['code'],
       token_endpoint_auth_method: 'client_secret_basic',

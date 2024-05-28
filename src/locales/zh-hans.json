@@ -80,7 +80,7 @@
 	"pad.colorpicker.cancel": "取消",
 	"pad.loading": "加载中...",
 	"pad.noCookie": "无法找到 Cookie。请在您的浏览器中允许cookie！您的会话和设置不会在两次访问之间保存。这可能是由于 Etherpad 包含在某些浏览器的 iFrame 中。请确保 Etherpad 与父 iFrame 位于同一子域/域中",
-	"pad.permissionDenied": "您没有访问这个记事本的权限",
+	"pad.permissionDenied": "请登录记事本后再操作",
 	"pad.settings.padSettings": "记事本设置",
 	"pad.settings.myView": "我的视窗",
 	"pad.settings.stickychat": "总是显示聊天屏幕",
