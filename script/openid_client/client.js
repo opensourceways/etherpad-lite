@@ -1297,6 +1297,19 @@ class BaseClient {
     return parsed;
   }
 
+  async checkToken(ygToken, token) {
+    let targetUrl = process.env.OSSCHECKURL;
+    return await this.requestResource(targetUrl, token, {
+      method: 'GET',
+      responseType: 'json',
+      headers: {
+        Accept: 'application/json',
+        Cookie: '_Y_G_=' + ygToken +'; _U_T_=' + token,
+        Token: token
+      },
+    });
+  }
+
   encryptionSecret(len) {
     const hash = len <= 256 ? 'sha256' : len <= 384 ? 'sha384' : len <= 512 ? 'sha512' : false;
     if (!hash) {

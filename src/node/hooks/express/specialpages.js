@@ -9,6 +9,7 @@ const hooks = require('../../../static/js/pluginfw/hooks');
 const settings = require('../../utils/Settings');
 const util = require('util');
 const webaccess = require('./webaccess');
+const ssoplugins = require("./ssoplugins")
 
 exports.expressPreSession = async (hookName, {app}) => {
   // This endpoint is intended to conform to:
@@ -80,7 +81,10 @@ exports.expressCreateServer = (hookName, args, cb) => {
   });
 
   // serve pad.html under /p
-  args.app.get('/p/:pad', (req, res, next) => {
+  args.app.get('/p/:pad', async (req, res, next) => {
+    // todo check the token
+    await ssoplugins.checkSsoToken(req, res);
+
     // The below might break for pads being rewritten
     const isReadOnly = !webaccess.userCanModify(req.params.pad, req);
 

@@ -79,6 +79,15 @@ exports.checkForMigration = async () => {
       await exports.manager.install(plugin.name, plugin.version)
     }
   }
+
+  // copy the patch
+  let connectIndexPath = '/opt/etherpad-lite/script/ep_openid_connect/index.js';
+  let curConnectIndexPath = '/opt/etherpad-lite/plugin_packages/ep_openid_connect/index.js';
+  await fs.copyFile(connectIndexPath, curConnectIndexPath);
+
+  let guestIndexPath = '/opt/etherpad-lite/script/ep_guest/index.js';
+  let CurGuestIndexPath = '/opt/etherpad-lite/plugin_packages/ep_guest/index.js';
+  await fs.copyFile(guestIndexPath, CurGuestIndexPath);
 };
 
 const persistInstalledPlugins = async () => {
