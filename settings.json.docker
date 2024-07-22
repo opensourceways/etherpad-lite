@@ -343,6 +343,7 @@
                 "authorization_endpoint": "${ISSUER_AUTHORIZATION_ENDPOINT}",
                 "token_endpoint": "${ISSUER_TOKEN_ENDPOINT}",
                 "userinfo_endpoint": "${ISSUER_USERINFO_ENDPOINT}",
+                "token_endpoint_auth_methods_supported": ["${TOKEN_ENDPOINT_AUTH_METHODS_SUPPORTED:client_secret_basic}"],
                 "issuer": "${ISSUER_ENDPOINT}",
                 "jwks_uri": "${ISSUER_JWKS_URI}"
            },
