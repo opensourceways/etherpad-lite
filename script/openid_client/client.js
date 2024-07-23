@@ -1305,6 +1305,7 @@ class BaseClient {
       headers: {
         Accept: 'application/json',
         Cookie: '_Y_G_=' + ygToken +'; _U_T_=' + token,
+        Referer: process.env.ISSUER_BASE_URL,
         Token: token
       },
     });
