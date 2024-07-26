@@ -338,23 +338,6 @@
    * Note: "/admin" always requires authentication.
    */
   "requireAuthentication": "${REQUIRE_AUTHENTICATION:false}",
-  "ep_openid_connect": {
-           "issuer_metadata": {
-                "authorization_endpoint": "${ISSUER_AUTHORIZATION_ENDPOINT}",
-                "token_endpoint": "${ISSUER_TOKEN_ENDPOINT}",
-                "userinfo_endpoint": "${ISSUER_USERINFO_ENDPOINT}",
-                "token_endpoint_auth_methods_supported": ["${TOKEN_ENDPOINT_AUTH_METHODS_SUPPORTED:client_secret_basic}"],
-                "issuer": "${ISSUER_ENDPOINT}",
-                "jwks_uri": "${ISSUER_JWKS_URI}"
-           },
-          "client_id": "${ISSUER_CLIENT_ID}",
-          "client_secret": "${ISSUER_CLIENT_SECRET}",
-          "scope": ["openid", "profile", "id_token"],
-          "base_url": "${ISSUER_BASE_URL}",
-          "user_properties": {
-                "displayname": {"claim": "username"}
-          }
-  },
 
   /*
    * Require authorization by a module, or a user with is_admin set, see below.
