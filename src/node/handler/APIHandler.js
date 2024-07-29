@@ -32,7 +32,17 @@ const apiHandlerLogger = log4js.getLogger('APIHandler');
 
 // ensure we have an apikey
 let apikey = null;
-const apikeyFilename = absolutePaths.makeAbsolute(argv.apikey || './APIKEY.txt');
+
+let defaultApiKey = null;
+try {
+  defaultApiKey = './var/APIKEY.txt';
+  fs.accessSync(defaultApiKey, fs.constants.F_OK);
+  apiHandlerLogger.info(`default Api key file is found.`);
+} catch (e) {
+  defaultApiKey = null;
+  apiHandlerLogger.info(`default Api key file is not found.`);
+}
+const apikeyFilename = absolutePaths.makeAbsolute(argv.apikey || defaultApiKey || './APIKEY.txt');
 
 try {
   apikey = fs.readFileSync(apikeyFilename, 'utf8');
