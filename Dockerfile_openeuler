@@ -36,6 +36,7 @@ RUN { [ -z "${ETHERPAD_PLUGINS}" ] || \
     src/bin/installDeps.sh && \
     rm -rf ~/.npm
 
+RUN /opt/etherpad-lite/src/bin/installDeps.sh
 RUN cp /opt/etherpad-lite/script/client.js /opt/etherpad-lite/node_modules/openid-client/lib/client.js
 
 RUN chmod -R g=u .
