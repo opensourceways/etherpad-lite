@@ -100,7 +100,7 @@ exports.start = async () => {
   state = State.STARTING;
   try {
     // Check if Etherpad version is up-to-date
-    UpdateCheck.check();
+    // UpdateCheck.check();
 
     stats.gauge('memoryUsage', () => process.memoryUsage().rss);
     stats.gauge('memoryUsageHeap', () => process.memoryUsage().heapUsed);
