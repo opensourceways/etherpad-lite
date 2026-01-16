@@ -3,7 +3,7 @@
 # https://github.com/ether/etherpad-lite
 #
 # Author: muxator
-ARG BUILD_ENV=git
+ARG BUILD_ENV=copy
 
 FROM node:lts-alpine AS adminbuild
 RUN npm install -g pnpm@latest
@@ -21,7 +21,7 @@ ARG http_proxy=
 ARG https_proxy=
 ARG no_proxy=
 
-ARG TIMEZONE=
+ARG TIMEZONE=Asia/Shanghai
 
 RUN \
   [ -z "${TIMEZONE}" ] || { \
@@ -64,7 +64,7 @@ ARG ETHERPAD_GITHUB_PLUGINS=
 #
 # EXAMPLE:
 #   INSTALL_ABIWORD=true
-ARG INSTALL_ABIWORD=
+ARG INSTALL_ABIWORD=false
 
 # Control whether libreoffice will be installed, enabling exports to DOC/PDF/ODT formats.
 # By default, it is not installed.
@@ -72,7 +72,7 @@ ARG INSTALL_ABIWORD=
 #
 # EXAMPLE:
 #   INSTALL_LIBREOFFICE=true
-ARG INSTALL_SOFFICE=
+ARG INSTALL_SOFFICE=false
 
 # Install dependencies required for modifying access.
 RUN apk add --no-cache shadow bash
@@ -83,9 +83,9 @@ RUN apk add --no-cache shadow bash
 #
 # If any of the following args are set to the empty string, default
 # values will be chosen.
-ARG EP_HOME=
+ARG EP_HOME=/opt/etherpad-lite
 ARG EP_UID=5001
-ARG EP_GID=0
+ARG EP_GID=5001
 ARG EP_SHELL=
 
 RUN groupadd --system ${EP_GID:+--gid "${EP_GID}" --non-unique} etherpad && \
@@ -133,7 +133,7 @@ FROM build AS build_copy
 
 FROM build_${BUILD_ENV} AS development
 
-ARG ETHERPAD_PLUGINS=
+ARG ETHERPAD_PLUGINS="ep_font_size ep_font_color ep_font_family ep_headings2 ep_openid_connect ep_guest ep_user_displayname ep_stable_authorid"
 ARG ETHERPAD_LOCAL_PLUGINS=
 ARG ETHERPAD_LOCAL_PLUGINS_ENV=
 ARG ETHERPAD_GITHUB_PLUGINS=
@@ -154,7 +154,7 @@ RUN bin/installDeps.sh && \
 
 FROM build_${BUILD_ENV} AS production
 
-ARG ETHERPAD_PLUGINS=
+ARG ETHERPAD_PLUGINS="ep_font_size ep_font_color ep_font_family ep_headings2 ep_openid_connect ep_guest ep_user_displayname ep_stable_authorid"
 ARG ETHERPAD_LOCAL_PLUGINS=
 ARG ETHERPAD_LOCAL_PLUGINS_ENV=
 ARG ETHERPAD_GITHUB_PLUGINS=
@@ -183,7 +183,7 @@ COPY --chown=etherpad:etherpad ${SETTINGS} "${EP_DIR}"/settings.json
 # Note: For some reason increases image size from 257 to 334.
 # RUN chmod -R g=u .
 
-USER etherpad
+#USER etherpad
 
 HEALTHCHECK --interval=5s --timeout=3s \
   CMD curl --silent http://localhost:9001/health | grep -E "pass|ok|up" > /dev/null || exit 1

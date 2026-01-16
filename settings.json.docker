@@ -107,7 +107,7 @@
   /*
   * Whether to show recent pads on the homepage or not.
   */
-  "showRecentPads": "${SHOW_RECENT_PADS:true}",
+  "showRecentPads": "${SHOW_RECENT_PADS:false}",
 
   /*
    * Pathname of the favicon you want to use. If null, the skin's favicon is
@@ -174,7 +174,7 @@
    *
    * Default option is set to true
    */
-  "showSettingsInAdminPage": "${SHOW_SETTINGS_IN_ADMIN_PAGE:true}",
+  "showSettingsInAdminPage": "${SHOW_SETTINGS_IN_ADMIN_PAGE:false}",
 
   /*
    * Enable/disable the metrics endpoint.
@@ -182,7 +182,7 @@
    * This is used by the monitoring plugins to collect metrics about Etherpad.
    * If you do not use any monitoring plugins, you can disable this.
    */
-  "enableMetrics": "${ENABLE_METRICS:true}",
+  "enableMetrics": "${ENABLE_METRICS:false}",
 
   /*
    * Settings for cleanup of pads
@@ -264,7 +264,7 @@
   /*
    * The default text of a pad
    */
-  "defaultPadText" : "${DEFAULT_PAD_TEXT:Welcome to Etherpad!\n\nThis pad text is synchronized as you type, so that everyone viewing this page sees the same text. This allows you to collaborate seamlessly on documents!\n\nGet involved with Etherpad at https:\/\/etherpad.org\n}",
+  "defaultPadText" : "${DEFAULT_PAD_TEXT:Welcome to Etherpad!\n\n}",
 
   /*
    * Default Pad behavior.
@@ -377,6 +377,23 @@
    * Note: "/admin" always requires authentication.
    */
   "requireAuthentication": "${REQUIRE_AUTHENTICATION:false}",
+  "ep_openid_connect": {
+           "issuer_metadata": {
+                "authorization_endpoint": "${ISSUER_AUTHORIZATION_ENDPOINT}",
+                "token_endpoint": "${ISSUER_TOKEN_ENDPOINT}",
+                "userinfo_endpoint": "${ISSUER_USERINFO_ENDPOINT}",
+                "token_endpoint_auth_methods_supported": ["${TOKEN_ENDPOINT_AUTH_METHODS_SUPPORTED:client_secret_basic}"],
+                "issuer": "${ISSUER_ENDPOINT}",
+                "jwks_uri": "${ISSUER_JWKS_URI}"
+           },
+          "client_id": "${ISSUER_CLIENT_ID}",
+          "client_secret": "${ISSUER_CLIENT_SECRET}",
+          "scope": ["openid", "profile", "id_token"],
+          "base_url": "${ISSUER_BASE_URL}",
+          "user_properties": {
+                "displayname": {"claim": "username"}
+          }
+  },
 
   /*
    * Require authorization by a module, or a user with is_admin set, see below.
@@ -452,8 +469,8 @@
      * will delete the cookie when the browser exits, but a session record is
      * kept in the database forever.
      */
-    // 864000000 = 10d * 24h/d * 60m/h * 60s/m * 1000ms/s
-    "sessionLifetime": "${COOKIE_SESSION_LIFETIME:864000000}",
+    // 86400000 = 1d * 24h/d * 60m/h * 60s/m * 1000ms/s
+    "sessionLifetime": "${COOKIE_SESSION_LIFETIME:86400000}",
 
     /*
      * How long (in milliseconds) before the expiration time of an active user's
@@ -661,7 +678,7 @@
     ],
     "right": [
       ["importexport", "timeslider", "savedrevision"],
-      ["settings", "embed", "home"],
+      ["settings", "embed"],
       ["showusers"]
     ],
     "timeslider": [
