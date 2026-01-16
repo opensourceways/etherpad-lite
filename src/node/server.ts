@@ -192,6 +192,9 @@ exports.start = async () => {
 
   logger.info('Etherpad is running');
   state = State.RUNNING;
+  // todo
+
+
   // @ts-ignore
   startDoneGate.resolve();
 
